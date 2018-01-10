@@ -247,6 +247,11 @@ GEM
     parser (2.4.0.0)
       ast (~> 2.2)
     pg (0.21.0)
+    platform_sh (0.2.7)
+    platform_sh_rails (0.1.7)
+      activerecord-nulldb-adapter
+      platform_sh (= 0.2.7)
+     powerpack (0.1.1)
     powerpack (0.1.1)
     progress (3.3.1)
     pry (0.10.4)
@@ -472,6 +477,7 @@ DEPENDENCIES
   onebox (= 1.8.34)
   openid-redis-store
   pg
+  platform_sh_rails
   pry-nav
   pry-rails
   puma

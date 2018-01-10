@@ -184,3 +184,4 @@ if ENV["IMPORT"] == "1"
   gem 'sqlite3', '~> 1.3.13'
   gem 'ruby-bbcode-to-md', github: 'nlalonde/ruby-bbcode-to-md'
 end
+gem 'platform_sh_rails'

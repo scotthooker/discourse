@@ -1,0 +1,44 @@
+
+name: 'forum'
+type: "ruby:2.4"
+disk: 1024
+hooks:
+  build: |
+    bundle install --jobs 6 --without development test
+    mv public/images _images
+  deploy:  |
+    cp -R _images/* public/images/
+    GIT_DISCOVERY_ACROSS_FILESYSTEM=1 RAILS_ENV=production bundle exec bin/rake assets:precompile
+    RAILS_ENV=production bundle exec rake db:migrate
+web:
+  upstream:
+    socket_family: unix
+  commands:
+    start: "unicorn -l $SOCKET -E production config.ru"
+  locations:
+    "/":
+      root: "public"
+      passthru: true
+      expires: 1h
+      allow: true
+dependencies:
+  nodejs:
+    yarn: "*"
+
+relationships:
+    redis: "rediscache:redis"
+    database: "postgresql:postgresql"
+mounts:
+   "/tmp": "shared:files/tmp"
+   "/log": "shared:files/log"
+   "/public/plugins": "shared:files/public/plugins"
+   "/public/images": "shared:files/public/images"
+   "/public/assets": "shared:files/public/assets"
+   "/public/uploads": "shared:files/public/uploads"
+   "/public/backups": "shared:files/public/backups"
+workers:
+    queue:
+        size: S
+        commands:
+            start: |
+                RAILS_ENV=production bundle exec sidekiq -e production -L ~/log/sidekiq.log

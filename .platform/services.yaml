@@ -1,0 +1,10 @@
+
+postgresql:
+  type: "postgresql:9.6"
+  disk: 2560
+  configuration:
+    extensions:
+      - pg_trgm
+      - hstore
+rediscache:
+  type: redis:3.2
