@@ -14,7 +14,7 @@ web:
   upstream:
     socket_family: unix
   commands:
-    start: "foreman start"
+    start: "foreman start -f Procfile_platform_sh"
   locations:
     "/":
       root: "public"
