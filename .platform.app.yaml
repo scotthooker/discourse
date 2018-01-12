@@ -10,12 +10,11 @@ hooks:
     cp -R _images/* public/images/
     GIT_DISCOVERY_ACROSS_FILESYSTEM=1 RAILS_ENV=production bundle exec bin/rake assets:precompile
     RAILS_ENV=production bundle exec rake db:migrate
-    RAILS_ENV=production bundle exec sidekiq  -c 4 -e production -L ~/log/sidekiq.log&
 web:
   upstream:
     socket_family: unix
   commands:
-    start: "unicorn -l $SOCKET -E production config.ru"
+    start: ""
   locations:
     "/":
       root: "public"
@@ -25,6 +24,8 @@ web:
 dependencies:
   nodejs:
     yarn: "*"
+  ruby:
+    foreman: "*"
 
 relationships:
     redis: "rediscache:redis"

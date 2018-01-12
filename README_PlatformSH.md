@@ -2,8 +2,6 @@
 
 Clone this repo and push to platform.sh. Tada.
 
-> NB: the minimal production plan to run Discourse on platform.sh is Medium
-
 Because we are not working on master in order to push this to platform.sh git server you can use:
 
 ```git push platform platform_sh:master```
@@ -16,7 +14,7 @@ platform vset -emaster env:DISCOURSE_HOSTNAME myhostnoame.com
 platform vset -emaster env:DISCOURSE_DEVELOPER_EMAILS myemail@example.com
 ```
 
-Most everything has been tested to be working but I will be happy to get feedback.
+Most everything has been tested to be working but I will be happy to get feedback. Until we get NFS mounts for workers putting worker in main container
 
 ## Changes to upstream
 Changes we have made to the default upstream repo:
@@ -38,3 +36,4 @@ create `config/discourse.conf` and remove it from `.gitignore`
 
 Add `.platform.app.yaml` and `.platform/routes.yaml` and  `.platform/services.yaml`
 
+Changed `Procfile`
