@@ -1,11 +1,12 @@
-#Running Discourse on Platform.sh
+# Running Discourse on Platform.sh
 
 Clone this repo and push to platform.sh. Tada.
 
 > NB: the minimal production plan to run Discourse on platform.sh is Medium
 
 Because we are not working on master in order to push this to platform.sh git server you can use:
-`git push platform platform_sh:master`
+
+```git push platform platform_sh:master```
 
 Or merge the changes to your master branch.
 
@@ -14,6 +15,8 @@ To finish off the installation  you should set the hostname and the developer em
 platform vset -emaster env:DISCOURSE_HOSTNAME myhostnoame.com
 platform vset -emaster env:DISCOURSE_DEVELOPER_EMAILS myemail@example.com
 ```
+
+Most everything has been tested to be working but I will be happy to get feedback.
 
 ## Changes to upstream
 Changes we have made to the default upstream repo:
