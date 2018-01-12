@@ -14,7 +14,7 @@ web:
   upstream:
     socket_family: unix
   commands:
-    start: ""
+    start: "foreman start"
   locations:
     "/":
       root: "public"
