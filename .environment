@@ -1,0 +1,19 @@
+export RAILS_ENV='production'
+export UNICORN_WORKERS=3
+export UNICORN_SIDEKIQS=1
+# this gives us very good cache coverage, 96 -> 99
+# in practice it is 1-2% perf improvement
+export RUBY_GLOBAL_METHOD_CACHE_SIZE=131072
+# stop heap doubling in size so aggressively, this conserves memory
+export RUBY_GC_HEAP_GROWTH_MAX_SLOTS=40000
+export RUBY_GC_HEAP_INIT_SLOTS=400000
+export RUBY_GC_HEAP_OLDOBJECT_LIMIT_FACTOR=1.5
+
+export DISCOURSE_DB_HOST=postgresql.internal
+export DISCOURSE_DB_USERNAME=main
+export DISCOURSE_DB_PASSWORD=main
+export DISCOURSE_DB_NAME=main
+export DISCOURSE_REDIS_HOST=redis.internal
+
+export DISCOURSE_SMTP_ADDRESS=$PLATFORM_SMTP_HOST
+

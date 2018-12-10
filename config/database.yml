@@ -1,3 +1,13 @@
+production:
+  adapter: postgresql
+  encoding: utf8
+  reconnect: false
+  database: <%=PlatformSH::config ? PlatformSH::config["relationships"]["database"][0]["path"] : nil%>
+  pool: 5
+  username: <%=PlatformSH::config ? PlatformSH::config["relationships"]["database"][0]["username"] : nil%>
+  host: <%=PlatformSH::config ? PlatformSH::config["relationships"]["database"][0]["host"] : nil%>
+  port: <%=PlatformSH::config ? PlatformSH::config["relationships"]["database"][0]["port"] : nil%>
+
 development:
   prepared_statements: false
   adapter: postgresql

@@ -1,0 +1,78 @@
+name: app
+
+disk: 1024
+
+type: "ruby:2.5"
+
+hooks:
+    build: |
+        set -x
+        [ -d "$PLATFORM_CACHE_DIR/bundle" ] && cp -rp "$PLATFORM_CACHE_DIR/bundle" vendor/bundle
+        bundle install --deployment --verbose --without test --without development --retry 3 --jobs 4
+
+        mv public/images _images
+        rm -rf "$PLATFORM_CACHE_DIR/bundle"
+        cp -rp vendor/bundle "$PLATFORM_CACHE_DIR/bundle"
+        cd /tmp
+        JHEAD_VERSION=3.00
+        curl -O http://www.sentex.net/~mwandel/jhead/jhead-$JHEAD_VERSION.tar.gz \
+          && tar zxf jhead-$JHEAD_VERSION.tar.gz \
+          && cd jhead-$JHEAD_VERSION \
+          && make && mv jhead $HOME/.global/bin/jhead
+    deploy: |
+        bundle exec rake db:migrate
+    post_deploy: |
+        set -e
+        cp -R _images/* public/images/
+        GIT_DISCOVERY_ACROSS_FILESYSTEM=1 RAILS_ENV=production bundle exec bin/rake assets:precompile
+dependencies:
+  ruby:
+    foreman: "*"
+  nodejs:
+    yarn: "*"
+    svgo: "*"
+    gifsicle: "*"
+relationships:
+    postgresql: "postgresql:postgresql"
+    redis: "redis:redis"
+variables:
+    env:
+        GIT_DISCOVERY_ACROSS_FILESYSTEM: "1"
+        RUBY_GC_HEAP_GROWTH_MAX_SLOTS: "40000"
+        RUBY_GC_HEAP_INIT_SLOTS: "400000"
+        RUBY_GC_HEAP_OLDOBJECT_LIMIT_FACTOR: "1.5"
+        RUBY_GLOBAL_METHOD_CACHE_SIZE: "131072"
+mounts:
+   "/log": "shared:files/log"
+   "/tmp": "shared:files/tmp"
+   "/public/uploads": "shared:files/uploads"
+   "/public/plugins": "shared:files/plugins"
+   "/public/assets": "shared:files/assets"
+   "/public/backups": "shared:files/backups"
+   "/public/images": "shared:files/images"
+   "plugins/discourse-oauth2-basic/auto_generated/": "shared:files/discourse-oauth2-basic_auto_generated"
+   
+web:
+    upstream:
+        socket_family: unix
+    commands:
+        start: "foreman start -f Procfile_platform_sh"
+
+    locations:
+        "/":
+            root: "public"
+            passthru: true
+            expires: 1h
+            allow: true
+        "/assets":
+            root: "public/assets"
+            expires: 1y
+            allow: true
+        "/plugins":
+            root: "public/plugins"
+            expires: 1y
+            allow: true
+        "/images/emoji":
+            root: "public/images/emoji"
+            expires: 1y
+            allow: true

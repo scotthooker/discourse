@@ -15,6 +15,7 @@ end
 
 require File.expand_path('../boot', __FILE__)
 require 'rails/all'
+require 'platform_sh_rails'
 
 # Plugin related stuff
 require_relative '../lib/discourse_event'
@@ -178,7 +179,7 @@ module Discourse
     config.assets.enabled = true
 
     # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.2.4'
+    config.assets.version = '1.2.5'
 
     # see: http://stackoverflow.com/questions/11894180/how-does-one-correctly-add-custom-sql-dml-in-migrations/11894420#11894420
     config.active_record.schema_format = :sql
