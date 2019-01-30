@@ -181,7 +181,7 @@ gem 'logstash-event', require: false
 gem 'logstash-logger', require: false
 gem 'logster'
 
-gem 'sassc', require: false
+gem 'sassc', '~> 1.0', require: false
 
 gem 'rotp'
 gem 'rqrcode'
@@ -202,3 +202,4 @@ end
 gem 'webpush', require: false
 gem 'colored2', require: false
 gem 'maxminddb'
+gem 'platform_sh_rails', '~> 0.1.8'

@@ -509,13 +509,23 @@ class Plugin::Instance
 
     public_data = File.dirname(path) + "/public"
     if Dir.exists?(public_data)
-      target = Rails.root.to_s + "/public/plugins/"
+      begin
+        target = Rails.root.to_s + "/public/plugins/"
 
-      Discourse::Utils.execute_command('mkdir', '-p', target)
-      target << name.gsub(/\s/, "_")
-      # TODO a cleaner way of registering and unregistering
-      Discourse::Utils.execute_command('rm', '-f', target)
-      Discourse::Utils.execute_command('ln', '-s', public_data, target)
+        Discourse::Utils.execute_command('mkdir', '-p', target)
+        target << name.gsub(/\s/, "_")
+        # TODO a cleaner way of registering and unregistering
+        Discourse::Utils.execute_command('rm', '-f', target)
+        # IF the symlink already exists, and the origin is on a R/O file-system
+        # Symlink creation will fail, but with the error 
+        # ln: failed to create symbolic link ... Read-only file system
+        # rather than ln: failed to create symbolic link ... File exists
+        if !File.exist?(target) && !File.symlink?(target)
+          Discourse::Utils.execute_command('ln', '-s', public_data, target)
+        end
+      rescue
+        Rails.logger.error("Can not symlink plugin from #{public_data} to #{target}. for #{name}")
+      end
     end
   end
 

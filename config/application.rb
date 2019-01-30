@@ -15,6 +15,7 @@ end
 
 require File.expand_path('../boot', __FILE__)
 require 'rails/all'
+require 'platform_sh_rails'
 
 # Plugin related stuff
 require_relative '../lib/discourse_event'
@@ -76,6 +77,8 @@ module Discourse
     # issue is image_optim crashes on missing dependencies
     config.assets.image_optim = false
 
+    config.assets.gzip = false 
+    
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += Dir["#{config.root}/app/serializers"]
     config.autoload_paths += Dir["#{config.root}/lib/validators/"]
@@ -137,7 +140,10 @@ module Discourse
         config.assets.precompile << "locales/#{file.match(/([a-z_A-Z]+\.js)\.erb$/)[1]}"
       end
     end
+    
+    # We probably don't need or want gzip
 
+    
     # out of the box sprockets 3 grabs loose files that are hanging in assets,
     # the exclusion list does not include hbs so you double compile all this stuff
     initializer :fix_sprockets_loose_file_searcher, after: :set_default_precompile do |app|
@@ -177,7 +183,7 @@ module Discourse
     config.assets.enabled = true
 
     # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.2.4'
+    config.assets.version = '1.2.5'
 
     # see: http://stackoverflow.com/questions/11894180/how-does-one-correctly-add-custom-sql-dml-in-migrations/11894420#11894420
     config.active_record.schema_format = :sql

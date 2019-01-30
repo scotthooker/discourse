@@ -1,0 +1,16 @@
+[submodule "plugins/discourse-oauth2-basic"]
+	path = plugins/discourse-oauth2-basic
+	url = https://github.com/discourse/discourse-oauth2-basic
+	branch = master
+[submodule "plugins/procourse-custom-homepage"]
+	path = plugins/procourse-custom-homepage
+	url = https://github.com/procourse/procourse-custom-homepage.git
+	branch = master
+[submodule "plugins/procourse-static-pages"]
+	path = plugins/procourse-static-pages
+	url = https://github.com/procourse/procourse-static-pages.git
+	branch = master
+[submodule "plugins/discourse-chat-integration"]
+	path = plugins/discourse-chat-integration
+	url = https://github.com/discourse/discourse-chat-integration.git
+	branch = master

@@ -19,6 +19,9 @@ Discourse::Application.configure do
 
   # Generate digests for assets URLs
   config.assets.digest = true
+  
+  config.assets.gzip = false
+  config.assets.compress = false
 
   config.log_level = :info
 
